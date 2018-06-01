@@ -1,0 +1,189 @@
+Kurt Borgsmiller
+
+//Random Die Number Generator
+#include <iostream> 
+#include <cstdlib> //library that deals with generating random numbers
+#include <ctime>
+
+using namespace std;
+
+int main()
+{
+ srand(static_cast<unsigned int>(time(0))); //seed random number generator (pick random palce in the book of repeated random nums)
+         // else it will repeat random numbers each time program starts
+ int randomNumber = rand();  //generate random number
+ 
+ int die = (randomNumber % 6) + 1; //generate number between 1-6
+ cout << "You rolled a " << die << endl;
+
+ return 0;
+}
+
+
+/////////////////////////////////////////////////////////////
+//Odds 
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+using namespace std;
+int main()
+{
+ srand(static_cast<unsigned int>(time(0)));
+ 
+ int odds = (rand() % 10) + 1;
+ int tries = 0, guess;
+ 
+ cout <<"Odds 1 in 10" << endl;
+ while( guess != odds)
+ {
+  cout <<" 3... 2... 1... GO" << endl;
+  cin >> guess;
+  ++tries;
+  
+  if (guess != odds)
+   cout << "Ha nice try guy. I'll let you go again." << endl;
+ }
+ cout << "Alright you got me. It only took you " << tries << " times nerd." << endl;
+ return 0;
+}
+/////////////////////////////////////////////////////////////
+//Inventory
+#include <iostream>
+#include <string>
+using namespace std;
+int main()
+{
+const int maxItems = 5;
+string inventory[maxItems];
+int numItems = 0;
+inventory[numItems++] = "Blue Pump";
+inventory[numItems++] = "Chug Jug";
+inventory[numItems++] = "Gold Scar";
+inventory[numItems++] = "Mini Shields x 3";
+inventory[numItems++] = "Gold Heavy Shotgun";
+cout << "Your Items are: \n";
+for (int i = 0; i < numItems; i++)
+{
+ cout << inventory[i] << endl;
+}
+cout << "\nYou trade Blue Pump for a Jet Pack\n";
+inventory[0] = "Jet Pack";
+cout << "Your Items are: \n";
+for (int i = 0; i < numItems; i++)
+{
+ cout << inventory[i] << endl;
+}
+if(numItems > maxItems)
+ cout << "\nYou have too many items and can't carry more\n";
+return 0;
+}
+/////////////////////////////////////////////////////////////
+//Inventory using Iterations
+#include<iostream>
+#include<string>
+#include<vector>
+using namespace std;
+int main()
+{
+ vector<string> inventory;
+ inventory.push_back("Green Pump"); //vector function that adds string
+ inventory.push_back("Green Asssault Rifle");
+ inventory.push_back("MedKit");
+ inventory.push_back("Shield");
+ vector<string>::iterator myIterator; // can change the values of what it references
+ vector<string>::const_iterator iter; //const_iterator cannot change values it references just references them
+ cout<<"Your Items:\n";
+ for(iter = inventory.begin(); iter!=inventory.end(); iter++)
+  cout << *iter << endl;           //dereference the iteration to give the value it references
+ cout<<"\nYou trade your Green Pump for a Purple Heavy Shotgun" <<endl; 
+ myIterator = inventory.begin(); //refernces iteration to the first element of the vector
+ *myIterator = "Purple Heavy Shotgun";
+ cout<<"\nItem name "<< *myIterator << " has " << myIterator->size() << " letters in it.\n"; //prints the size of the string the iteration references
+ cout<<"\nYou pickup a Big Shield off an enemy\n";
+ inventory.insert(inventory.begin(), "Big Shield"); //inserts string at beginning of vector and shifts all elements over
+ cout<<"Your Items:\n";
+ for(iter = inventory.begin(); iter!=inventory.end(); iter++)
+  cout << *iter << endl;
+ cout<<"\nYou lose shield in a fight";
+ inventory.erase((inventory.begin()+4)); //erases the fifth element of the vector
+ cout<<"Your Items:\n"; 
+ for(iter = inventory.begin(); iter!=inventory.end(); iter++)
+  cout << *iter << endl;
+}
+
+/////////////////////////////////////////////////////////////
+//Hangman Game 
+#include<iostream>
+#include<vector>
+#include<string>
+#include<algorithm>
+#include<ctime>
+#include<cctype //Functions for changing letters to uppercase
+using namespace std;
+int main()
+{
+const int maxWrong = 8;
+vector<string> words;
+words.push_back("HELLO");
+words.push_back("GOODBYE");
+words.push_back("GREETINGS");
+words.push_back("FAREWELL");
+words.push_back("ADIOS");
+words.push_back("HOLA");
+words.push_back("PEACE");
+words.push_back("TAKE CARE");
+words.push_back("BYE");
+words.push_back("SEEYA");
+words.push_back("NIGHT");
+words.push_back("HEY");
+srand(static_cast<unsigned int>(time (0)));
+random_shuffle(words.begin(), words.end());
+const string wordToGuess = words[0];
+int wrongGuesses = 0;
+string soFar(wordToGuess.size(), '-');  //starts out as a series of dashes the same size as the word to guess
+string used = "";
+cout << "Welcome to Hangman! Goodluck!\n\n";
+while((wrongGuesses < maxWrong) && (soFar != wordToGuess))
+{
+ cout << "\n\nYou have << (maxWrong - wrongGuesses);
+ cout << " incorrect guesses left.\n";
+ cout << "\nYou have used the following letters: " << used << endl;
+ cout << "\n So far, the word is: "<< soFar << endl;
+ char guess;
+ cout << "\n\nEnter your guess: ";
+ cin >> guess;
+ guess = toupper(guess); 
+ while (used.find(guess)!= string::npos)
+ {
+  cout<<"\nYou've already guessed: " << guess << endl;
+  cout << "Enter your guess: ";
+  cin >> guess;
+  guess = toupper(guess);
+ } 
+ used+=guess;
+ if(wordToGuess.find(guess) != string::npos)
+ {
+  cout << "\nCorrect Guess! " << guess << " is in the word!" << endl;
+  
+  for( int i = 0; i < wordToGuess.length() ; i++)
+  {
+   if(wordToGuess[i] == guess)
+    soFar[i] == guess;
+  } 
+ }
+ 
+ else
+ {
+  cout << "\nSorry " << guess << " is not in the word!" << endl;
+  wrong++;
+ }
+}
+if (wrong == maxWrong)
+ cout << "\nYou've been hanged!";
+else 
+ cout << "\nCongrats you won and beat the Hangman!";
+ 
+cout << "\nThe word was: " << wordToGuess << endl;
+return 0;
+}
+/////////////////////////////////////////////////////////////
